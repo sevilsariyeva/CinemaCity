@@ -15,7 +15,7 @@ namespace CinemaCity.Services.Concrete
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IConfiguration _configuration;
-        public UserService(IUserRepository userRepository,IPasswordHasher<User>passwordHasher, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _configuration = configuration;
@@ -47,6 +47,21 @@ namespace CinemaCity.Services.Concrete
             throw new NotImplementedException();
         }
 
+        public async Task<string> LoginUserAsync(LoginRequest request)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(request.Email);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException("Invalid email or password.");
+            }
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
+            if (verificationResult == PasswordVerificationResult.Failed)
+            {
+                throw new UnauthorizedAccessException("Invalid email or password.");
+            }
+            return JwtTokenGenerator.GenerateToken(user.Id,user.Email,"User",_configuration);
+        }
+
         public async Task<string> RegisterUserAsync(RegisterRequest request)
         {
             if (!await RegisterHelper.IsValidEmail(request.Email))
@@ -72,9 +87,9 @@ namespace CinemaCity.Services.Concrete
                 Password = request.Password,
                 ImageUrl = "/uploads/upload_area.png"
             };
-            newUser.Password=_passwordHasher.HashPassword(newUser,newUser.Password);
+            newUser.Password = _passwordHasher.HashPassword(newUser, newUser.Password);
             await _userRepository.AddAsync(newUser);
-            await EmailHelper.SendEmail(newUser.Email, "Welcome to Cinema City!","We are happy to see you! You should start to explore all films.");
+            await EmailHelper.SendEmail(newUser.Email, "Welcome to Cinema City!", "We are happy to see you! You should start to explore all films.");
             return JwtTokenGenerator.GenerateToken(newUser.Id.ToString(), newUser.Email, "User", _configuration);
         }
 

@@ -23,8 +23,21 @@ namespace CinemaCity.Controllers
                 return BadRequest(ModelState);
             }
             var token = await _userService.RegisterUserAsync(request);
-            return Ok(token);
-
+            return Ok(new { success = true, token });
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            {
+                return BadRequest(new { success = false, message = "Email and password are required." });
+            }
+            var response = await _userService.LoginUserAsync(request);
+            if (string.IsNullOrEmpty(response))
+            {
+                return Unauthorized(new { success = false, message = "Invalid credentials" });
+            }
+            return Ok(new { success = true, response });
         }
     }
 }

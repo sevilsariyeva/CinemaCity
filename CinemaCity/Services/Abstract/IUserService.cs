@@ -6,5 +6,6 @@ namespace CinemaCity.Services.Abstract
     public interface IUserService:IService<User>
     {
         Task<string> RegisterUserAsync(RegisterRequest request);
+        Task<string> LoginUserAsync(LoginRequest request);
     }
 }
