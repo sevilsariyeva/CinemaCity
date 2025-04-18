@@ -1,4 +1,5 @@
 ﻿using CinemaCity.Models;
+using CinemaCity.Models.DTOs;
 using CinemaCity.Services.Abstract;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace CinemaCity.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterUserRequest request)
         {
             if (!ModelState.IsValid)
             {

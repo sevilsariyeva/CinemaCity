@@ -12,9 +12,10 @@ namespace CinemaCity.Repositories.Concrete
         {
             _context = context;
         }
-        public Task AddAsync(User entity)
+        public async Task AddAsync(User entity)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public void Delete(User entity)

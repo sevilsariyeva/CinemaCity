@@ -31,7 +31,6 @@ namespace CinemaCity.Helpers
             new Claim(ClaimTypes.Role, role),
             new Claim("aud", audience)
                 }),
-                Expires = expiryTime,
                 Issuer = issuer,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

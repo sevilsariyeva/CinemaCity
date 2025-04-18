@@ -2,6 +2,7 @@
 using CinemaCity.Exceptions;
 using CinemaCity.Helpers;
 using CinemaCity.Models;
+using CinemaCity.Models.DTOs;
 using CinemaCity.Repositories.Abstract;
 using CinemaCity.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
@@ -36,12 +37,6 @@ namespace CinemaCity.Services.Concrete
             throw new NotImplementedException();
         }
 
-
-        //public User Get(Expression<Func<User, bool>> expression)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public IEnumerable<User> GetAll()
         {
             throw new NotImplementedException();
@@ -62,7 +57,7 @@ namespace CinemaCity.Services.Concrete
             return JwtTokenGenerator.GenerateToken(user.Id,user.Email,"User",_configuration);
         }
 
-        public async Task<string> RegisterUserAsync(RegisterRequest request)
+        public async Task<string> RegisterUserAsync(RegisterUserRequest request)
         {
             if (!await RegisterHelper.IsValidEmail(request.Email))
             {
@@ -73,7 +68,7 @@ namespace CinemaCity.Services.Concrete
                 throw new WeakPasswordException("Password must be at least 8 characters long and contain uppercase, lowercase, and a digit.");
             }
             var existingUser = _userRepository.GetUserByEmailAsync(request.Email);
-            if (existingUser != null)
+            if (existingUser.Result != null)
             {
                 throw new EmailAlreadyExistsException("Email is already in use.");
             }
@@ -83,9 +78,11 @@ namespace CinemaCity.Services.Concrete
             }
             var newUser = new User
             {
+                Id=Guid.NewGuid().ToString(),
+                FullName = request.FullName,
                 Email = request.Email,
                 Password = request.Password,
-                ImageUrl = "/uploads/upload_area.png"
+                ImageUrl = request.ImageUrl
             };
             newUser.Password = _passwordHasher.HashPassword(newUser, newUser.Password);
             await _userRepository.AddAsync(newUser);
