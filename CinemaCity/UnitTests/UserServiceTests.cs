@@ -1,4 +1,6 @@
-﻿using CinemaCity.Models;
+﻿using CinemaCity.Exceptions;
+using CinemaCity.Models;
+using CinemaCity.Models.DTOs;
 using CinemaCity.Repositories.Abstract;
 using CinemaCity.Services.Abstract;
 using CinemaCity.Services.Concrete;
@@ -42,7 +44,7 @@ public class UserServiceTests
     [Fact]
     public async Task LoginUserAsync_InvalidPassword_ThrowsUnAuthorizedException()
     {
-        var user = new User { Email = "user@gmail.com", Password = "User.123" };
+        var user = new User { Email = "valid@email.com", Password = "hashedpassword" };
         var loginRequest = new LoginRequest
         {
             Email = user.Email,
@@ -55,13 +57,13 @@ public class UserServiceTests
         await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _userService.LoginUserAsync(loginRequest));
     }
     [Fact]
-    public async Task LoginUserAync_Success_ReturnJwtToken()
+    public async Task LoginUserAsync_Success_ReturnJwtToken()
     {
         var user = new User
         {
             Id = Guid.NewGuid().ToString(),
-            Email = "user@gmail.com",
-            Password = "User.123"
+            Email = "valid@gmail.com",
+            Password = "Password.123"
         };
 
         var loginRequest = new LoginRequest
@@ -76,6 +78,64 @@ public class UserServiceTests
         _configurationMock.Setup(c => c["JwtSecret"]).Returns("SecretCode");
 
         var token = await _userService.LoginUserAsync(loginRequest);
+
+        Assert.NotNull(token);
+    }
+    [Fact]
+    public async Task RegisterUserAsync_InvalidEmail_ThrowsArgumentException()
+    {
+        var registerUser = new RegisterUserRequest
+        {
+            Email = "invalidEmail",
+            Password = "Password.123",
+            FullName = "Lisa Kudrow"
+        };
+        await Assert.ThrowsAsync<ArgumentException>(()=>_userService.RegisterUserAsync(registerUser));
+    }
+    [Fact]
+    public async Task RegisterUserAsync_EmailAlreadyExists_ThrowsEmailAlreadyExistsException()
+    {
+        var registerRequest = new RegisterUserRequest
+        {
+            Email="sevilsariyeva00@gmail.com",
+            Password="Sevil.123",
+            FullName="Sevil Sariyeva"
+        };
+        var existingUser = new User { Email = registerRequest.Email };
+
+        _userRepositoryMock.Setup(r => r.GetUserByEmailAsync(registerRequest.Email)).ReturnsAsync(existingUser);
+
+        await Assert.ThrowsAsync<EmailAlreadyExistsException>(() => _userService.RegisterUserAsync(registerRequest));
+    }
+    [Fact]
+    public async Task RegisterUserAsync_EmailDoesNotExist_ThrowsEmailValidationException()
+    {
+        var registerRequest = new RegisterUserRequest
+        {
+            Email = "nonexistentcinemacity@gmail.com",
+            Password = "Password1.23!",
+            FullName = "Lisa Kudrow"
+        };
+
+        _userRepositoryMock.Setup(r => r.GetUserByEmailAsync(registerRequest.Email)).ReturnsAsync((User)null);
+
+        await Assert.ThrowsAsync<EmailValidationException>(() => _userService.RegisterUserAsync(registerRequest));
+    }
+    [Fact]
+    public async Task RegisterUserAsync_Success_ReturnsJwtToken()
+    {
+        var registerRequest = new RegisterUserRequest
+        {
+            Email = "valid@gmail.com",
+            Password = "Password.123",
+            FullName = "Lisa Kudrow"
+        };
+        _userRepositoryMock.Setup(r => r.GetUserByEmailAsync(registerRequest.Email)).ReturnsAsync((User)null);
+        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), registerRequest.Password)).Returns("hashedpassword");
+
+        _configurationMock.Setup(c => c["JwtSecret"]).Returns("SecretCode");
+
+        var token = await _userService.RegisterUserAsync(registerRequest);
 
         Assert.NotNull(token);
     }
