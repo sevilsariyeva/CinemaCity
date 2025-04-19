@@ -4,10 +4,11 @@ using CinemaCity.Services.Abstract;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CinemaCity.Controllers
+namespace CinemaCity.Controllers.v1
 {
-    [Route("user")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/user")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;

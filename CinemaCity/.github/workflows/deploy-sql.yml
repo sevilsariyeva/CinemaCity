@@ -1,0 +1,18 @@
+name: Deploy DB (.NET Project)
+
+on:
+    push:
+        paths:
+            - 'data/scripts/**'
+jobs:
+    deploy-sql:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install sqlcmd
+              run: sudo apt-get install -y mssql-tools
+            - name: Run SQL Scripts on MSSQL
+              run: |
+                  sqlcmd -S ${{ secrets.DB_HOST }} -U ${{ secrets.DB_USER }} -P ${{ secrets.DB_PASS }} -d CinemaCityDB -i data/scripts/001_AddUsersTable.sql
+        

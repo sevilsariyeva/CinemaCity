@@ -8,6 +8,7 @@ using CinemaCity.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.Configuration;
+using Moq;
 
 namespace CinemaCity.Services.Concrete
 {
