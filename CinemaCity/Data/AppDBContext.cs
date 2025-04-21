@@ -14,6 +14,7 @@ namespace CinemaCity.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Film> Films { get; set; }
         public DbSet<Author> Authors { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,6 +40,16 @@ namespace CinemaCity.Data
             .HasOne(f => f.Author)
             .WithMany(a => a.Films)
             .HasForeignKey(f => f.AuthorId);
+
+            modelBuilder.Entity<Ticket>()
+             .HasOne(t => t.User)
+             .WithMany(u => u.Tickets)
+             .HasForeignKey(t => t.UserId);
+
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Session)
+                .WithMany(s => s.Tickets)
+                .HasForeignKey(t => t.SessionId);
 
             modelBuilder.Entity<Film>()
             .Property(f => f.Price)

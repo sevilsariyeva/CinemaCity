@@ -8,6 +8,7 @@
         public DateTime Date { get; set; }
         public string FilmId { get; set; }
         public Film Film { get; set; }
+        public ICollection<Ticket> Tickets { get; set; }
     }
 
 }
