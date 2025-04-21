@@ -23,22 +23,23 @@ namespace CinemaCity.Services.Concrete
             _configuration = configuration;
             _passwordHasher = passwordHasher;
         }
-        public void Add(User entity)
+
+        public Task Add(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(string id)
+        public Task Delete(string id)
         {
             throw new NotImplementedException();
         }
 
-        public User Get(string id)
+        public Task<User> Get(string id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAll()
+        public Task<IEnumerable<User>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
@@ -91,7 +92,7 @@ namespace CinemaCity.Services.Concrete
             return JwtTokenGenerator.GenerateToken(newUser.Id.ToString(), newUser.Email, "User", _configuration);
         }
 
-        public void Update(User entity)
+        public Task Update(User entity)
         {
             throw new NotImplementedException();
         }

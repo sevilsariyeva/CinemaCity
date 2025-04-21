@@ -10,6 +10,7 @@ namespace CinemaCity.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Session> Sessions { get; set; }
@@ -30,14 +31,18 @@ namespace CinemaCity.Data
                 .UsingEntity(j => j.ToTable("FilmActors"));
 
             modelBuilder.Entity<Session>()
-                .HasOne(s=>s.Film)
+                .HasOne(s => s.Film)
                 .WithMany(f => f.Sessions)
-                .HasForeignKey(s=>s.FilmId);
+                .HasForeignKey(s => s.FilmId);
 
             modelBuilder.Entity<Film>()
             .HasOne(f => f.Author)
             .WithMany(a => a.Films)
             .HasForeignKey(f => f.AuthorId);
+
+            modelBuilder.Entity<Film>()
+            .Property(f => f.Price)
+            .HasPrecision(10, 2);
         }
     }
 }

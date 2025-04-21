@@ -1,4 +1,5 @@
 ﻿using Docker.DotNet.Models;
+using Microsoft.EntityFrameworkCore;
 using Renci.SshNet;
 
 namespace CinemaCity.Models
@@ -11,6 +12,7 @@ namespace CinemaCity.Models
         public int Year { get; set; }
         public string Duration { get; set; }
         public double Rating { get; set; }
+        [Precision(10, 2)]
         public decimal Price { get; set; }
         public string Image { get; set; }
         public string Banner { get; set; }

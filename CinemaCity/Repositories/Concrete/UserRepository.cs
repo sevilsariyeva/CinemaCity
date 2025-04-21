@@ -18,17 +18,17 @@ namespace CinemaCity.Repositories.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public void Delete(User entity)
+        public Task Delete(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public User Get(string id)
+        public Task<User> Get(string id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAll()
+        public Task<IEnumerable<User>> GetAll()
         {
             throw new NotImplementedException();
         }
@@ -38,7 +38,7 @@ namespace CinemaCity.Repositories.Concrete
            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public void Update(User entity)
+        public Task Update(User entity)
         {
             throw new NotImplementedException();
         }

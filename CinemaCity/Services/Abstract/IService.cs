@@ -4,11 +4,11 @@ namespace CinemaCity.Services.Abstract
 {
     public interface IService<T>
     {
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
         //T Get(Expression<Func<T, bool>> expression);
-        T Get(string id);
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(string id);
+        Task<T> Get(string id);
+        Task Add(T entity);
+        Task Update(T entity);
+        Task Delete(string id);
     }
 }
