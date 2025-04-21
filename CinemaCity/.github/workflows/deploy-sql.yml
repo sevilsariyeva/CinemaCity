@@ -1,18 +1,14 @@
-name: Deploy DB (.NET Project)
+name: Test SQL Scripts Locally
 
 on:
-    push:
-        paths:
-            - 'data/scripts/**'
-jobs:
-    deploy-sql:
-        runs-on: ubuntu-latest
+  workflow_dispatch:
 
-        steps:
-            - uses: actions/checkout@v3
-            - name: Install sqlcmd
-              run: sudo apt-get install -y mssql-tools
-            - name: Run SQL Scripts on MSSQL
-              run: |
-                  sqlcmd -S ${{ secrets.DB_HOST }} -U ${{ secrets.DB_USER }} -P ${{ secrets.DB_PASS }} -d CinemaCityDB -i data/scripts/001_AddUsersTable.sql
-        
+jobs:
+  test-sql-local:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run localdb sqlcmd
+        run: |
+          sqlcmd -S "(localdb)\MSSQLLocalDB" -i data/scripts/001_AddUsersTable.sql
