@@ -16,7 +16,7 @@ namespace CinemaCity.Services.Concrete
             await _filmRepository.AddAsync(entity);
         }
 
-        public async Task Delete(string id)
+        public async Task Delete(int id)
         {
             var film = await _filmRepository.Get(id);
             if (film != null)
@@ -25,7 +25,7 @@ namespace CinemaCity.Services.Concrete
             }
         }
 
-        public async Task<Film> Get(string id)
+        public async Task<Film> Get(int id)
         {
             return await _filmRepository.Get(id);
         }
@@ -34,7 +34,6 @@ namespace CinemaCity.Services.Concrete
         {
             return await _filmRepository.GetAll(); 
         }
-
         public async Task Update(Film entity)
         {
             await _filmRepository.Update(entity);

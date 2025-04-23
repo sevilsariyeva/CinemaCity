@@ -16,7 +16,7 @@ namespace CinemaCity.Services.Concrete
             await _adminRepository.AddAsync(entity);
         }
 
-        public async Task<Admin> GetAsync(string id)
+        public async Task<Admin> GetAsync(int id)
         {
             return await _adminRepository.GetAsync(id);
         }

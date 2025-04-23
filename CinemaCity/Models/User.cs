@@ -1,21 +1,44 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace CinemaCity.Models
+namespace CinemaCity.Models;
+
+[Table("users")]
+public partial class User
 {
-    public class User
-    {
-        [Key]
-        [Required]
-        public string Id { get; set; }
-        public string FullName { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        public string? Phone { get; set; }
-        public string ImageUrl { get; set; }
-        public ICollection<Ticket> Tickets { get; set; }
-    }
+    [Key]
+    [Column("id")]
+    public int Id { get; set; }
+
+    [Column("fullName")]
+    [StringLength(255)]
+    public string? FullName { get; set; }
+
+    [Column("email")]
+    [StringLength(255)]
+    public string? Email { get; set; }
+
+    [Column("password")]
+    [StringLength(255)]
+    public string? Password { get; set; }
+
+    [Column("phone")]
+    [StringLength(255)]
+    public string? Phone { get; set; }
+
+    [Column("imageUrl")]
+    [StringLength(255)]
+    public string? ImageUrl { get; set; }
+
+    [Column("created_at", TypeName = "datetime")]
+    public DateTime? CreatedAt { get; set; }
+
+    [InverseProperty("User")]
+    public virtual ICollection<Basket> Baskets { get; set; } = new List<Basket>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 }

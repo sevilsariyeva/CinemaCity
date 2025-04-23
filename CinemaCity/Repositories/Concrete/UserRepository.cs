@@ -7,8 +7,8 @@ namespace CinemaCity.Repositories.Concrete
 {
     public class UserRepository : IUserRepository
     {
-        private readonly AppDBContext _context;
-        public UserRepository(AppDBContext context)
+        private readonly CinemaCityDbContext _context;
+        public UserRepository(CinemaCityDbContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace CinemaCity.Repositories.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<User> Get(string id)
+        public Task<User> Get(int id)
         {
             throw new NotImplementedException();
         }

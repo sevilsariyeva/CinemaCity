@@ -7,8 +7,8 @@ namespace CinemaCity.Repositories.Concrete
 {
     public class FilmRepository : IFilmRepository
     {
-        private readonly AppDBContext _context;
-        public FilmRepository(AppDBContext context)
+        private readonly CinemaCityDbContext _context;
+        public FilmRepository(CinemaCityDbContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace CinemaCity.Repositories.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Film> Get(string id)
+        public async Task<Film> Get(int id)
         {
             return await _context.Films.FirstOrDefaultAsync(f=>f.Id == id);
         }

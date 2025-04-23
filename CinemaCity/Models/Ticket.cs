@@ -1,12 +1,43 @@
-﻿namespace CinemaCity.Models
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace CinemaCity.Models;
+
+[Table("tickets")]
+public partial class Ticket
 {
-    public class Ticket
-    {
-        public string Id { get; set; }
-        public string SeatNumber { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
-        public string SessionId { get; set; }
-        public Session Session { get; set; }
-    }
+    [Key]
+    [Column("id")]
+    public int Id { get; set; }
+
+    [Column("seatNumber")]
+    [StringLength(255)]
+    public string? SeatNumber { get; set; }
+
+    [Column("body", TypeName = "text")]
+    public string? Body { get; set; }
+
+    [Column("user_id")]
+    public int? UserId { get; set; }
+
+    [Column("session_id")]
+    public int? SessionId { get; set; }
+
+    [Column("basket_id")]
+    public int? BasketId { get; set; }
+
+    [ForeignKey("BasketId")]
+    [InverseProperty("Tickets")]
+    public virtual Basket? Basket { get; set; }
+
+    [ForeignKey("SessionId")]
+    [InverseProperty("Tickets")]
+    public virtual Session? Session { get; set; }
+
+    [ForeignKey("UserId")]
+    [InverseProperty("Tickets")]
+    public virtual User? User { get; set; }
 }

@@ -29,12 +29,12 @@ namespace CinemaCity.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task Delete(string id)
+        public Task Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> Get(string id)
+        public Task<User> Get(int id)
         {
             throw new NotImplementedException();
         }
@@ -69,8 +69,8 @@ namespace CinemaCity.Services.Concrete
             {
                 throw new WeakPasswordException("Password must be at least 8 characters long and contain uppercase, lowercase, and a digit.");
             }
-            var existingUser = _userRepository.GetUserByEmailAsync(request.Email);
-            if (existingUser.Result != null)
+            var existingUser = await _userRepository.GetUserByEmailAsync(request.Email);
+            if (existingUser != null)
             {
                 throw new EmailAlreadyExistsException("Email is already in use.");
             }
@@ -80,7 +80,6 @@ namespace CinemaCity.Services.Concrete
             }
             var newUser = new User
             {
-                Id=Guid.NewGuid().ToString(),
                 FullName = request.FullName,
                 Email = request.Email,
                 Password = request.Password,
@@ -89,7 +88,7 @@ namespace CinemaCity.Services.Concrete
             newUser.Password = _passwordHasher.HashPassword(newUser, newUser.Password);
             await _userRepository.AddAsync(newUser);
             await EmailHelper.SendEmail(newUser.Email, "Welcome to Cinema City!", "We are happy to see you! You should start to explore all films.");
-            return JwtTokenGenerator.GenerateToken(newUser.Id.ToString(), newUser.Email, "User", _configuration);
+            return JwtTokenGenerator.GenerateToken(newUser.Id, newUser.Email, "User", _configuration);
         }
 
         public Task Update(User entity)

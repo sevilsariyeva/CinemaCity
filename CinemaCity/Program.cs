@@ -22,17 +22,19 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IFilmService, FilmService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 var frontendUrl = configuration.GetValue<string>("frontend_url");
 var adminUrl = configuration.GetValue<string>("admin_url");
-builder.Services.AddDbContext<AppDBContext>(options =>
+builder.Services.AddDbContext<CinemaCityDbContext>(options =>
 {
     options.UseSqlServer(connection);
 });
@@ -58,7 +60,7 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<CinemaCityDbContext>();
     dbContext.Database.Migrate();
 }
 

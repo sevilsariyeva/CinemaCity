@@ -7,8 +7,8 @@ namespace CinemaCity.Repositories.Concrete
 {
     public class AdminRepository : IAdminRepository
     {
-        private readonly AppDBContext _context;
-        public AdminRepository(AppDBContext context)
+        private readonly CinemaCityDbContext _context;
+        public AdminRepository(CinemaCityDbContext context)
         {
             _context=context;
         }
@@ -18,7 +18,7 @@ namespace CinemaCity.Repositories.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Admin> GetAsync(string id)
+        public async Task<Admin> GetAsync(int id)
         {
             return await _context.Admins.FirstOrDefaultAsync(f=>f.Id==id);
         }

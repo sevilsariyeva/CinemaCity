@@ -61,7 +61,7 @@ public class UserServiceTests
     {
         var user = new User
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = 111,
             Email = "valid@gmail.com",
             Password = "Password.123"
         };

@@ -4,7 +4,7 @@ namespace CinemaCity.Services.Abstract
 {
     public interface IAdminService
     {
-        Task<Admin> GetAsync(string id);
+        Task<Admin> GetAsync(int id);
         Task AddAsync(Admin entity);
         Task UpdateAsync(Admin entity);
     }

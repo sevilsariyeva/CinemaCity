@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CinemaCity.Helpers
 {
-    public class JwtTokenGenerator
+    internal static class JwtTokenGeneratorHelpers
     {
         public static string GenerateToken(int userId, string email, string role, IConfiguration configuration)
         {
@@ -26,7 +26,7 @@ namespace CinemaCity.Helpers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-            //new Claim(ClaimTypes.NameIdentifier, userId),
+            //new Claim(claimTypes.NameIdentifier, userId),
             new Claim(ClaimTypes.Email, email),
             new Claim(ClaimTypes.Role, role),
             new Claim("aud", audience)
@@ -35,7 +35,7 @@ namespace CinemaCity.Helpers
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var token= tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
     }

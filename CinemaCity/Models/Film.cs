@@ -1,27 +1,64 @@
-﻿using Docker.DotNet.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Renci.SshNet;
 
-namespace CinemaCity.Models
+namespace CinemaCity.Models;
+
+[Table("films")]
+public partial class Film
 {
-    public class Film
-    {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string About { get; set; }
-        public int Year { get; set; }
-        public string Duration { get; set; }
-        public double Rating { get; set; }
-        [Precision(10, 2)]
-        public decimal Price { get; set; }
-        public string Image { get; set; }
-        public string Banner { get; set; }
-        public string Link { get; set; }
-        public string AuthorId { get; set; }
-        public Author Author { get; set; }
-        public ICollection<Genre> Genres { get; set; }
-        public ICollection<Actor> Actors { get; set; }
-        public ICollection<Session> Sessions { get; set; }
-    }
+    [Key]
+    [Column("id")]
+    public int Id { get; set; }
 
+    [Column("title")]
+    [StringLength(255)]
+    public string? Title { get; set; }
+
+    [Column("about")]
+    [StringLength(255)]
+    public string? About { get; set; }
+
+    [Column("year")]
+    public int? Year { get; set; }
+
+    [Column("duration")]
+    [StringLength(255)]
+    public string? Duration { get; set; }
+
+    [Column("rating")]
+    public double? Rating { get; set; }
+
+    [Column("price", TypeName = "money")]
+    public decimal? Price { get; set; }
+
+    [Column("imageUrl")]
+    [StringLength(255)]
+    public string? ImageUrl { get; set; }
+
+    [Column("banner")]
+    [StringLength(255)]
+    public string? Banner { get; set; }
+
+    [Column("link")]
+    [StringLength(255)]
+    public string? Link { get; set; }
+
+    [Column("author_id")]
+    public int? AuthorId { get; set; }
+
+    [ForeignKey("AuthorId")]
+    [InverseProperty("Films")]
+    public virtual Author? Author { get; set; }
+
+    [InverseProperty("Film")]
+    public virtual ICollection<FilmActor> FilmActors { get; set; } = new List<FilmActor>();
+
+    [InverseProperty("Film")]
+    public virtual ICollection<FilmGenre> FilmGenres { get; set; } = new List<FilmGenre>();
+
+    [InverseProperty("Film")]
+    public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
 }
