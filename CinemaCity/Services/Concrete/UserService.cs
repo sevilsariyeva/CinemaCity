@@ -83,7 +83,8 @@ namespace CinemaCity.Services.Concrete
                 FullName = request.FullName,
                 Email = request.Email,
                 Password = request.Password,
-                ImageUrl = request.ImageUrl
+                ImageUrl = request.ImageUrl,
+                CreatedAt= DateTime.UtcNow,
             };
             newUser.Password = _passwordHasher.HashPassword(newUser, newUser.Password);
             await _userRepository.AddAsync(newUser);
