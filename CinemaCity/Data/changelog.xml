@@ -1,14 +1,177 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
-	<!-- 
-	<include file="Changes/insert_genres.xml"/>
-	<include file="Changes/insert_actors.xml"/>
-	<include file="Changes/insert_film.xml"/>-->
-	<include file="Changes/insert_sessions.xml"/>
-	<include file="Changes/insert_film_genres.xml"/>
-	<include file="Changes/insert_film_actors.xml"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Asus (generated)" id="1745789613046-1">
+        <createTable tableName="basket_details">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__basket_d__3213E83F1C116F22"/>
+            </column>
+            <column computed="false" name="basket_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column computed="false" name="movie_json" type="nvarchar(MAX)"/>
+            <column computed="false" name="session_time" type="nvarchar(100)"/>
+            <column computed="false" name="theater" type="nvarchar(255)"/>
+            <column computed="false" name="date" type="nvarchar(100)"/>
+            <column computed="false" name="total_price" type="decimal(18, 2)"/>
+            <column computed="false" defaultValueComputed="getdate()" defaultValueConstraintName="DF__basket_de__creat__02FC7413" name="created_at" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-2">
+        <createTable tableName="baskets">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__baskets__3213E83F29B75742"/>
+            </column>
+            <column computed="false" name="user_id" type="int"/>
+            <column computed="false" name="createdAt" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-3">
+        <createTable tableName="film_actors">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__film_act__3213E83F7B1F4DF1"/>
+            </column>
+            <column computed="false" name="film_id" type="int"/>
+            <column computed="false" name="actor_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-4">
+        <createTable tableName="film_genres">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__film_gen__3213E83F95F17413"/>
+            </column>
+            <column computed="false" name="film_id" type="int"/>
+            <column computed="false" name="genre_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-5">
+        <createTable tableName="films">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__films__3213E83FF13C125D"/>
+            </column>
+            <column computed="false" name="title" type="nvarchar(255)"/>
+            <column computed="false" name="about" type="varchar(MAX)"/>
+            <column computed="false" name="year" type="int"/>
+            <column computed="false" name="duration" type="nvarchar(255)"/>
+            <column computed="false" name="rating" type="float(53)"/>
+            <column computed="false" name="price" type="money"/>
+            <column computed="false" name="imageUrl" type="nvarchar(255)"/>
+            <column computed="false" name="banner" type="nvarchar(255)"/>
+            <column computed="false" name="link" type="nvarchar(255)"/>
+            <column computed="false" name="author_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-6">
+        <createTable tableName="sessions">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__sessions__3213E83F64BCDE8E"/>
+            </column>
+            <column computed="false" name="sessionTime" type="nvarchar(255)"/>
+            <column computed="false" name="theater" type="nvarchar(255)"/>
+            <column computed="false" name="date" type="datetime"/>
+            <column computed="false" name="film_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-7">
+        <createTable tableName="tickets">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__tickets__3213E83F87E09935"/>
+            </column>
+            <column computed="false" name="seatNumber" type="nvarchar(255)"/>
+            <column computed="false" name="body" type="[varchar] (max)"/>
+            <column computed="false" name="user_id" type="int"/>
+            <column computed="false" name="session_id" type="int"/>
+            <column computed="false" name="basket_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-8">
+        <createTable tableName="__EFMigrationsHistory">
+            <column computed="false" name="MigrationId" type="nvarchar(150)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK___EFMigrationsHistory"/>
+            </column>
+            <column computed="false" name="ProductVersion" type="nvarchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-9">
+        <createTable tableName="actors">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__actors__3213E83F09352FA3"/>
+            </column>
+            <column computed="false" name="fullName" type="nvarchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-10">
+        <createTable tableName="admin">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__admin__3213E83F7F713B7B"/>
+            </column>
+            <column computed="false" name="fullName" type="nvarchar(255)"/>
+            <column computed="false" name="email" type="nvarchar(255)"/>
+            <column computed="false" name="password" type="nvarchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-11">
+        <createTable tableName="authors">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__authors__3213E83FEF87B555"/>
+            </column>
+            <column computed="false" name="fullName" type="nvarchar(255)"/>
+            <column computed="false" name="biography" type="nvarchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-12">
+        <createTable tableName="genres">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__genres__3213E83FDF87D713"/>
+            </column>
+            <column computed="false" name="name" type="nvarchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-13">
+        <createTable tableName="users">
+            <column autoIncrement="true" computed="false" name="id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__users__3213E83FB558B3A0"/>
+            </column>
+            <column computed="false" name="fullName" type="nvarchar(255)"/>
+            <column computed="false" name="email" type="nvarchar(255)"/>
+            <column computed="false" name="password" type="nvarchar(255)"/>
+            <column computed="false" name="phone" type="nvarchar(255)"/>
+            <column computed="false" name="imageUrl" type="nvarchar(255)"/>
+            <column computed="false" name="created_at" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-14">
+        <addForeignKeyConstraint baseColumnNames="film_id" baseTableName="sessions" constraintName="FK__sessions__film_i__4CA06362" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="films" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-15">
+        <addForeignKeyConstraint baseColumnNames="basket_id" baseTableName="tickets" constraintName="FK__tickets__basket___4F7CD00D" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="baskets" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-16">
+        <addForeignKeyConstraint baseColumnNames="session_id" baseTableName="tickets" constraintName="FK__tickets__session__4E88ABD4" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sessions" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-17">
+        <addForeignKeyConstraint baseColumnNames="basket_id" baseTableName="basket_details" constraintName="FK_BasketDetails_Basket" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="baskets" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-18">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="baskets" constraintName="FK__baskets__user_id__4BAC3F29" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-19">
+        <addForeignKeyConstraint baseColumnNames="actor_id" baseTableName="film_actors" constraintName="FK__film_acto__actor__534D60F1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="actors" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-20">
+        <addForeignKeyConstraint baseColumnNames="film_id" baseTableName="film_actors" constraintName="FK__film_acto__film___52593CB8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="films" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-21">
+        <addForeignKeyConstraint baseColumnNames="film_id" baseTableName="film_genres" constraintName="FK__film_genr__film___5070F446" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="films" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-22">
+        <addForeignKeyConstraint baseColumnNames="genre_id" baseTableName="film_genres" constraintName="FK__film_genr__genre__5165187F" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="genres" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-23">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="films" constraintName="FK__films__author_id__4AB81AF0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="authors" validate="true"/>
+    </changeSet>
+    <changeSet author="Asus (generated)" id="1745789613046-24">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="tickets" constraintName="FK__tickets__user_id__4D94879B" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
 </databaseChangeLog>

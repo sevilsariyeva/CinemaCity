@@ -61,11 +61,11 @@ namespace CinemaCity.Services.Concrete
 
         public async Task<string> RegisterUserAsync(RegisterUserRequest request)
         {
-            if (!await RegisterHelper.IsValidEmail(request.Email))
+            if (RegisterHelper.IsValidEmail(request.Email))
             {
                 throw new ArgumentException("Invalid email format.", nameof(request.Email));
             }
-            if (!await RegisterHelper.IsStrongPassword(request.Password))
+            if (RegisterHelper.IsStrongPassword(request.Password))
             {
                 throw new WeakPasswordException("Password must be at least 8 characters long and contain uppercase, lowercase, and a digit.");
             }

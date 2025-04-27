@@ -4,12 +4,12 @@ namespace CinemaCity.Helpers
 {
     public static class RegisterHelper
     {
-        public static async Task<bool> IsValidEmail(string email)
+        public static bool IsValidEmail(string email)
         {
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             return emailRegex.IsMatch(email);
         }
-        public static async Task<bool> IsStrongPassword(string password)
+        public static bool IsStrongPassword(string password)
         {
             return password.Length>=8 &&
                 password.Any(char.IsUpper)&&

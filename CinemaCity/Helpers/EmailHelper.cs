@@ -49,7 +49,7 @@
 
             mailMessage.To.Add(toEmail);
 
-            smtpClient.Send(mailMessage);
+            await smtpClient.SendMailAsync(mailMessage);
         }
     }
 }

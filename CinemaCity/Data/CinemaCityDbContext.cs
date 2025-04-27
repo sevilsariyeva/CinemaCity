@@ -21,6 +21,7 @@ namespace CinemaCity.Data
         public virtual DbSet<Author> Authors { get; set; }
 
         public virtual DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketDetail> BasketDetails { get; set; }
 
         public virtual DbSet<Film> Films { get; set; }
 
@@ -37,7 +38,6 @@ namespace CinemaCity.Data
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
             => optionsBuilder.UseSqlServer("Server=DESKTOP-3F2PTRN\\SQLEXPRESS;Database=CinemaCityDB;Trusted_Connection=True;Encrypt=False");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -99,6 +99,22 @@ namespace CinemaCity.Data
                 entity.HasKey(e => e.Id).HasName("PK__sessions__3213E83F64BCDE8E");
 
                 entity.HasOne(d => d.Film).WithMany(p => p.Sessions).HasConstraintName("FK__sessions__film_i__4CA06362");
+            });
+            modelBuilder.Entity<BasketDetail>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("PK__basket_d__3213E83F1C116F22");
+
+                entity.Property(e => e.MovieJson).HasColumnName("movie_json").HasColumnType("nvarchar(max)");
+                entity.Property(e => e.SessionTime).HasColumnName("session_time").HasMaxLength(100);
+                entity.Property(e => e.Theater).HasColumnName("theater").HasMaxLength(255);
+                entity.Property(e => e.Date).HasColumnName("date").HasMaxLength(100);
+                entity.Property(e => e.TotalPrice).HasColumnName("total_price").HasColumnType("decimal(18,2)");
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("getdate()");
+
+                entity.HasOne<Basket>()
+                      .WithMany()
+                      .HasForeignKey(e => e.BasketId)
+                      .HasConstraintName("FK_basket_details_basket_id");
             });
 
             modelBuilder.Entity<Ticket>(entity =>
