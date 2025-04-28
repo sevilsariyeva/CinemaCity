@@ -1,0 +1,14 @@
+﻿databaseChangeLog:
+  - changeSet:
+      id: 000001_insert_operation_author
+      author: cinema
+      changes:
+        - insert:
+            tableName: authors
+            columns:
+              - column:
+                  name: fullName
+                  value: "Henry Gayden"
+              - column:
+                  name: biography
+                  value: "Henry Gayden is an American screenwriter and producer, known for his work on films such as 'Shazam!' and 'Earth to Echo'."

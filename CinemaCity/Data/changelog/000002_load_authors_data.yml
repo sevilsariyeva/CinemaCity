@@ -1,0 +1,28 @@
+﻿databaseChangeLog:
+  - changeSet:
+      id: 000002_load_authors_data
+      author: cinema
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: file:///C:/Users/Asus/source/repos/CinemaCity/CinemaCity/Data/data/authors_data.csv
+            separator: ";"
+            tableName: authors
+            schemaName: public
+            catalogName: saved_results_db
+            columns:
+              - column:
+                  name: code
+                  type: int
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+              - column:
+                  name: is_deleted
+                  type: boolean

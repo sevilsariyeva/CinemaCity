@@ -1,0 +1,19 @@
+﻿version: "3.3"
+services:
+  mssql:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+      MSSQL_USER: ${DB_USER}
+      MSSQL_PASSWORD: ${DB_PASSWORD}
+      MSSQL_DB: ${DB_NAME}
+    ports:
+      - '1433:1433'
+    networks:
+      - save-search-result-system
+    restart: unless-stopped
+
+networks:
+  save-search-result-system:
