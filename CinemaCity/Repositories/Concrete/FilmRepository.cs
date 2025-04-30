@@ -31,7 +31,11 @@ namespace CinemaCity.Repositories.Concrete
 
         public async Task<IEnumerable<Film>> GetAll()
         {
-           return await _context.Films.ToListAsync();
+           return await _context.Films
+                .Include(f=>f.FilmGenres)
+                .Include(f=>f.FilmActors)
+                .Include(f=>f.Sessions)
+                .ToListAsync();
         }
 
         public async Task Update(Film entity)

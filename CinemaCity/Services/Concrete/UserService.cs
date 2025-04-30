@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Security.Claims;
 using CinemaCity.Exceptions;
 using CinemaCity.Helpers;
 using CinemaCity.Models;
@@ -59,7 +60,7 @@ namespace CinemaCity.Services.Concrete
             return JwtTokenGenerator.GenerateToken(user.Id,user.Email,"User",_configuration);
         }
 
-        public async Task<string> RegisterUserAsync(RegisterUserRequest request)
+        public async Task<string> RegisterUserAsync(RegisterUserRequestDTO request)
         {
             if (RegisterHelper.IsValidEmail(request.Email))
             {
@@ -96,5 +97,11 @@ namespace CinemaCity.Services.Concrete
         {
             throw new NotImplementedException();
         }
+        public int GetUserIdFromToken(ClaimsPrincipal user)
+        {
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+            return userIdClaim != null ? int.Parse(userIdClaim.Value) : throw new Exception("UserId not found in token");
+        }
+
     }
 }

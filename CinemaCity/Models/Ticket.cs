@@ -29,6 +29,8 @@ public partial class Ticket
     [Column("basket_id")]
     public int? BasketId { get; set; }
 
+    [Column("basketDetail_id")]
+    public int? BasketDetailId { get; set; }
     [ForeignKey("BasketId")]
     [InverseProperty("Tickets")]
     public virtual Basket? Basket { get; set; }

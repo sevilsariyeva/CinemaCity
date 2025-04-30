@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using CinemaCity.Data;
 using CinemaCity.Models;
 using CinemaCity.Repositories.Abstract;
@@ -53,7 +54,12 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
 });
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 64;
+    });
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -1,6 +1,6 @@
 ﻿namespace CinemaCity.Models.DTOs
 {
-    public class RegisterUserRequest
+    public class RegisterUserRequestDTO
     {
         public string FullName { get; set; }
         public string Email { get; set; }

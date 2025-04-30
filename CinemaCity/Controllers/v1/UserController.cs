@@ -1,6 +1,7 @@
 ﻿using CinemaCity.Models;
 using CinemaCity.Models.DTOs;
 using CinemaCity.Services.Abstract;
+using CinemaCity.Services.Concrete;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +13,15 @@ namespace CinemaCity.Controllers.v1
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IBasketService _basketService;
+        public UserController(IUserService userService, IBasketService basketService)
         {
             _userService = userService;
+            _basketService = basketService;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserRequest request)
+        public async Task<IActionResult> Register(RegisterUserRequestDTO request)
         {
             if (!ModelState.IsValid)
             {
@@ -40,6 +43,22 @@ namespace CinemaCity.Controllers.v1
                 return Unauthorized(new { success = false, message = "Invalid credentials" });
             }
             return Ok(new { success = true, response });
+        }
+
+        [HttpPost("addToBasket")]
+        public async Task<IActionResult> AddToBasket([FromBody] AddToBasketRequestDTO request)
+        {
+            int? userId = _userService.GetUserIdFromToken(HttpContext.User);
+
+            if (userId == null)
+                return Unauthorized();
+
+            foreach (var seat in request.Seats)
+            {
+                await _basketService.AddTicketToBasketAsync(userId, $"{seat.Row}{seat.Col}", request.Session_Id);
+            }
+
+            return Ok(new { message = "Seats added to basket successfully" });
         }
     }
 }

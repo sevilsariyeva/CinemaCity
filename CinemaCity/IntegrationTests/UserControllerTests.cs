@@ -14,7 +14,7 @@ public class UserControllerTests:IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task Register_ReturnsToken_WhenValidRequest()
     {
-        var request = new RegisterUserRequest
+        var request = new RegisterUserRequestDTO
         {
             FullName = "Test",
             Email = "test@example.com",

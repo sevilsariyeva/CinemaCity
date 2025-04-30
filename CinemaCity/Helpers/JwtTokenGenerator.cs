@@ -26,16 +26,17 @@ namespace CinemaCity.Helpers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-            //new Claim(ClaimTypes.NameIdentifier, userId),
-            new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Role, role),
-            new Claim("aud", audience)
+                    new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                    new Claim(ClaimTypes.Email, email),
+                    new Claim(ClaimTypes.Role, role),
+                    new Claim("aud", audience)
                 }),
                 Issuer = issuer,
+                Audience=audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var token= tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
     }

@@ -11,7 +11,7 @@ namespace CinemaCity.Services.Concrete
         {
             _basketRepository = basketRepository;
         }
-        public async Task AddTicketToBasketAsync(int userId, string seatNumber, int sessionId)
+        public async Task AddTicketToBasketAsync(int? userId, string seatNumber, int sessionId)
         {
             var basket = await _basketRepository.GetUserBasketAsync(userId);
 
@@ -23,16 +23,27 @@ namespace CinemaCity.Services.Concrete
                     CreatedAt = DateTime.UtcNow,
                     Tickets = new List<Ticket>()
                 };
-                await _basketRepository.CreateBasketAsync(basket);
+
+                await _basketRepository.AddToBasketAsync(basket);
             }
+
+            if (basket.Tickets == null)
+            {
+                basket.Tickets = new List<Ticket>();
+            }
+
             var ticket = new Ticket
             {
                 SeatNumber = seatNumber,
                 UserId = userId,
-                SessionId = sessionId
+                SessionId = sessionId,
+                BasketDetailId = basket.Id 
             };
+
             basket.Tickets.Add(ticket);
+
             await _basketRepository.SaveChangesAsync();
         }
+
     }
 }

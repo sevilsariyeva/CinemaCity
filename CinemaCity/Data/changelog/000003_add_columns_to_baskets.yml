@@ -1,0 +1,23 @@
+﻿databaseChangeLog:
+    - changeSet:
+        id: 000003_add_columns_to_baskets
+        author: cinema
+        changes:
+            - addColumn:
+                tableName: baskets
+                columns:
+                    - column:
+                        name: film
+                        type: varchar(max)
+                    - column:
+                        name: theater
+                        type: varchar(255)
+                    - column:
+                        name: date
+                        type: varchar(255)
+                    - column:
+                        name: total_price
+                        type: decimal(18,2)
+                    - column:
+                        name: sesion_id
+                        type: int

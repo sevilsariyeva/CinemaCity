@@ -84,7 +84,7 @@ public class UserServiceTests
     [Fact]
     public async Task RegisterUserAsync_InvalidEmail_ThrowsArgumentException()
     {
-        var registerUser = new RegisterUserRequest
+        var registerUser = new RegisterUserRequestDTO
         {
             Email = "invalidEmail",
             Password = "Password.123",
@@ -95,7 +95,7 @@ public class UserServiceTests
     [Fact]
     public async Task RegisterUserAsync_EmailAlreadyExists_ThrowsEmailAlreadyExistsException()
     {
-        var registerRequest = new RegisterUserRequest
+        var registerRequest = new RegisterUserRequestDTO
         {
             Email="sevilsariyeva00@gmail.com",
             Password="Sevil.123",
@@ -110,7 +110,7 @@ public class UserServiceTests
     [Fact]
     public async Task RegisterUserAsync_EmailDoesNotExist_ThrowsEmailValidationException()
     {
-        var registerRequest = new RegisterUserRequest
+        var registerRequest = new RegisterUserRequestDTO
         {
             Email = "nonexistentcinemacity@gmail.com",
             Password = "Password1.23!",
@@ -124,7 +124,7 @@ public class UserServiceTests
     [Fact]
     public async Task RegisterUserAsync_Success_ReturnsJwtToken()
     {
-        var registerRequest = new RegisterUserRequest
+        var registerRequest = new RegisterUserRequestDTO
         {
             Email = "valid@gmail.com",
             Password = "Password.123",

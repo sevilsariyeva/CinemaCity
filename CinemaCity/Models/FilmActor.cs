@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaCity.Models;
@@ -22,7 +23,7 @@ public partial class FilmActor
     [ForeignKey("ActorId")]
     [InverseProperty("FilmActors")]
     public virtual Actor? Actor { get; set; }
-
+    [JsonIgnore]
     [ForeignKey("FilmId")]
     [InverseProperty("FilmActors")]
     public virtual Film? Film { get; set; }

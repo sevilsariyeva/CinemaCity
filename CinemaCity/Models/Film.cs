@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaCity.Models;
@@ -53,6 +54,7 @@ public partial class Film
     [InverseProperty("Films")]
     public virtual Author? Author { get; set; }
 
+    [JsonIgnore]
     [InverseProperty("Film")]
     public virtual ICollection<FilmActor> FilmActors { get; set; } = new List<FilmActor>();
 

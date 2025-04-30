@@ -13,12 +13,12 @@ namespace CinemaCity.Repositories.Concrete
             _context = context;
         }
 
-        public async Task CreateBasketAsync(Basket basket)
+        public async Task AddToBasketAsync(Basket basket)
         {
             await _context.Baskets.AddAsync(basket);
         }
 
-        public async Task<Basket?> GetUserBasketAsync(int userId)
+        public async Task<Basket?> GetUserBasketAsync(int? userId)
         {
             return await _context.Baskets
                 .FirstOrDefaultAsync(b => b.UserId == userId);
