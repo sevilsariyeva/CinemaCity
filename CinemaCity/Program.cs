@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using CinemaCity.Data;
 using CinemaCity.Models;
@@ -6,9 +7,11 @@ using CinemaCity.Repositories.Concrete;
 using CinemaCity.Services.Abstract;
 using CinemaCity.Services.Concrete;
 using DotNetEnv;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -54,12 +57,30 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
 });
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-        options.JsonSerializerOptions.MaxDepth = 64;
-    });
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = configuration["Jwt:Issuer"],
+        ValidAudience = configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]))
+    };
+});
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -69,7 +90,7 @@ if (app.Environment.IsDevelopment())
     var dbContext = scope.ServiceProvider.GetRequiredService<CinemaCityDbContext>();
     dbContext.Database.Migrate();
 }
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthorization();

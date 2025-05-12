@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
@@ -28,6 +29,19 @@
   <ItemGroup>
     <None Include=".github\workflows\deploy-sql.yml" />
     <None Include="IntegrationTests\IntegrationTests.csproj" />
+    <None Include="wwwroot\images\chair.webp" />
+    <None Include="wwwroot\images\darkknight.jpg" />
+    <None Include="wwwroot\images\darkknight_banner.jpg" />
+    <None Include="wwwroot\images\inception.jpg" />
+    <None Include="wwwroot\images\inception_banner.jpg" />
+    <None Include="wwwroot\images\interstellar.jpg" />
+    <None Include="wwwroot\images\interstellar_banner.jpg" />
+    <None Include="wwwroot\images\logo.png" />
+    <None Include="wwwroot\images\movie_background.jpg" />
+    <None Include="wwwroot\images\oppenheimer.jpg" />
+    <None Include="wwwroot\images\profile.png" />
+    <None Include="wwwroot\images\shazam.jpg" />
+    <None Include="wwwroot\images\shazam_banner.webp" />
   </ItemGroup>
 
 </Project>

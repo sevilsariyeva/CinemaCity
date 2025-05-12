@@ -33,6 +33,7 @@ namespace CinemaCity.Repositories.Concrete
         {
            return await _context.Films
                 .Include(f=>f.FilmGenres)
+                .ThenInclude(g=>g.Genre)
                 .Include(f=>f.FilmActors)
                 .Include(f=>f.Sessions)
                 .ToListAsync();

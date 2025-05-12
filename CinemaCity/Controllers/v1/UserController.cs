@@ -45,20 +45,5 @@ namespace CinemaCity.Controllers.v1
             return Ok(new { success = true, response });
         }
 
-        [HttpPost("addToBasket")]
-        public async Task<IActionResult> AddToBasket([FromBody] AddToBasketRequestDTO request)
-        {
-            int? userId = _userService.GetUserIdFromToken(HttpContext.User);
-
-            if (userId == null)
-                return Unauthorized();
-
-            foreach (var seat in request.Seats)
-            {
-                await _basketService.AddTicketToBasketAsync(userId, $"{seat.Row}{seat.Col}", request.Session_Id);
-            }
-
-            return Ok(new { message = "Seats added to basket successfully" });
-        }
     }
 }

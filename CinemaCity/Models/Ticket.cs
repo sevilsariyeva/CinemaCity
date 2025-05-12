@@ -13,12 +13,11 @@ public partial class Ticket
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("seatNumber")]
+    [Column("seatRow")]
     [StringLength(255)]
-    public string? SeatNumber { get; set; }
-
-    [Column("body", TypeName = "text")]
-    public string? Body { get; set; }
+    public string? SeatRow { get; set; }
+    [Column("seatColumn")]
+    public int? SeatColumn { get; set; }
 
     [Column("user_id")]
     public int? UserId { get; set; }
@@ -29,8 +28,6 @@ public partial class Ticket
     [Column("basket_id")]
     public int? BasketId { get; set; }
 
-    [Column("basketDetail_id")]
-    public int? BasketDetailId { get; set; }
     [ForeignKey("BasketId")]
     [InverseProperty("Tickets")]
     public virtual Basket? Basket { get; set; }

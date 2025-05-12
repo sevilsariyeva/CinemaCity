@@ -62,11 +62,11 @@ namespace CinemaCity.Services.Concrete
 
         public async Task<string> RegisterUserAsync(RegisterUserRequestDTO request)
         {
-            if (RegisterHelper.IsValidEmail(request.Email))
+            if (!RegisterHelper.IsValidEmail(request.Email))
             {
                 throw new ArgumentException("Invalid email format.", nameof(request.Email));
             }
-            if (RegisterHelper.IsStrongPassword(request.Password))
+            if (!RegisterHelper.IsStrongPassword(request.Password))
             {
                 throw new WeakPasswordException("Password must be at least 8 characters long and contain uppercase, lowercase, and a digit.");
             }
@@ -99,8 +99,10 @@ namespace CinemaCity.Services.Concrete
         }
         public int GetUserIdFromToken(ClaimsPrincipal user)
         {
-            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            return userIdClaim != null ? int.Parse(userIdClaim.Value) : throw new Exception("UserId not found in token");
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier) ?? user.FindFirst("nameid");
+            if (userIdClaim == null)
+                throw new Exception("UserId not found in token");
+            return int.Parse(userIdClaim.Value);
         }
 
     }

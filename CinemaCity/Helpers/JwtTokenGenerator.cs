@@ -24,17 +24,19 @@ namespace CinemaCity.Helpers
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                    new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimTypes.Role, role),
-                    new Claim("aud", audience)
-                }),
+                Subject = new ClaimsIdentity(new[]
+    {
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+        new Claim(ClaimTypes.Email, email),
+        new Claim(ClaimTypes.Role, role),
+    }),
                 Issuer = issuer,
-                Audience=audience,
+                Audience = audience,
+                Expires = expiryTime,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
+
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
