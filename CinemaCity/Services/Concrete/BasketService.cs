@@ -45,7 +45,7 @@ namespace CinemaCity.Services.Concrete
                 {
                     UserId = userId,
                     CreatedAt = DateTime.UtcNow,
-                    TotalPrice = request.TotalPrice,
+                    TotalPrice=0,
                     Tickets = new List<Ticket>()
                 };
 
@@ -60,13 +60,14 @@ namespace CinemaCity.Services.Concrete
                     SeatColumn = seat.Col,
                     SessionId = request.SessionId,
                     UserId = userId,
-                    Basket = basket
+                    Basket = basket,
+                    ReservedAt = DateTime.UtcNow
                 };
 
                 basket.Tickets.Add(ticket);
             }
 
-            basket.TotalPrice = request.TotalPrice; 
+            basket.TotalPrice += request.TotalPrice;
             await _basketRepository.SaveChangesAsync();
         }
 

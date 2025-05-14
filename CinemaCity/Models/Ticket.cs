@@ -27,7 +27,8 @@ public partial class Ticket
 
     [Column("basket_id")]
     public int? BasketId { get; set; }
-
+    [Column("reserved_at")]
+    public DateTime ReservedAt { get; set; }
     [ForeignKey("BasketId")]
     [InverseProperty("Tickets")]
     public virtual Basket? Basket { get; set; }

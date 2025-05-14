@@ -37,12 +37,12 @@ namespace CinemaCity.Controllers.v1
             {
                 return BadRequest(new { success = false, message = "Email and password are required." });
             }
-            var response = await _userService.LoginUserAsync(request);
-            if (string.IsNullOrEmpty(response))
+            var token = await _userService.LoginUserAsync(request);
+            if (string.IsNullOrEmpty(token))
             {
                 return Unauthorized(new { success = false, message = "Invalid credentials" });
             }
-            return Ok(new { success = true, response });
+            return Ok(new { success = true, token });
         }
 
     }

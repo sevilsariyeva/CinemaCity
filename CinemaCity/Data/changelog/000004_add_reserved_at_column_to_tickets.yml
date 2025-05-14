@@ -1,0 +1,11 @@
+﻿databaseChangeLog:
+  - changeSet:
+      id: 000004_add_reserved_at_column_to_tickets
+      author: cinema
+      changes:
+        - addColumn:
+            tableName: tickets
+            columns:
+              - column:
+                  name: reserved_at
+                  type: datetime
